@@ -106,10 +106,15 @@ Communication_Protocols/
 
 ## 🤝 Contributing
 
-We welcome contributions!
-- Found a bug? Open an issue.
-- Want to add a platform (STM32, PIC, FPGA)? Submit a Pull Request.
-- **Style Guide**: Keep code commented and variable names descriptive.
+We believe in the power of open source. Whether you are fixing a typo or adding a driver for a new architecture (RISC-V, PIC, AVR), your help is welcome!
+
+Please read our detailed **[Contribution Guidelines](docs/CONTRIBUTING.md)** before submitting a Pull Request.
+
+### Quick Checklist:
+*   **Arduino**: Use standard style.
+*   **STM32**: Use HAL and include CubeMX configuration notes.
+*   **FPGA**: Use **SystemVerilog** (`.sv`) and include error handling (no bare `.v` files).
+*   **Docs**: Update the relevant `README.md` if you change code.
 
 ---
 
