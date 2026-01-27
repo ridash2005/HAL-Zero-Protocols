@@ -9,9 +9,36 @@ UART is one of the oldest and most common communication protocols in embedded sy
 *   **Duplex**: Full Duplex (Can transmit and receive simultaneously)
 *   **Distance**: Short (TTL Logic), Long (with RS-232/RS-485 definitions)
 
-## 🔌 Wiring Connection
+
+## 🔌 Wiring Connection (Architecture)
 
 The most common mistake beginners make is wiring TX to TX. **Always cross the lines!**
+
+```mermaid
+graph LR
+    subgraph Device_A [Device A (Master/PC)]
+        direction TB
+        TX_A[TX Pin]
+        RX_A[RX Pin]
+        GND_A[GND]
+    end
+    
+    subgraph Device_B [Device B (Slave/Sensor)]
+        direction TB
+        TX_B[TX Pin]
+        RX_B[RX Pin]
+        GND_B[GND]
+    end
+
+    TX_A -- Data Flow --> RX_B
+    TX_B -- Data Flow --> RX_A
+    GND_A == Common Ground == GND_B
+
+    style TX_A fill:#ff9999,stroke:#333,stroke-width:2px
+    style RX_B fill:#99ff99,stroke:#333,stroke-width:2px
+    style TX_B fill:#ff9999,stroke:#333,stroke-width:2px
+    style RX_A fill:#99ff99,stroke:#333,stroke-width:2px
+```
 
 | Device A | Connection | Device B |
 | :--- | :---: | :--- |

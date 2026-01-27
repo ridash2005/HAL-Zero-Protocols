@@ -10,7 +10,38 @@ SPI is a synchronous, full-duplex communication protocol used for short-distance
 *   **Speed**: High (Up to 10-50 Mbps commonly)
 *   **Architecture**: Master-Slave (One Master, one or multiple Slaves)
 
-## 🔌 Wiring Connection
+
+## 🔌 Wiring Connection (Architecture)
+
+SPI uses a Master-Slave architecture. The Master controls the clock (SCK).
+
+```mermaid
+graph LR
+    subgraph Master [Master (Microcontroller)]
+        SCK_M[SCK]
+        MOSI_M[MOSI]
+        MISO_M[MISO]
+        CS_M[CS / SS]
+    end
+
+    subgraph Slave [Slave (Sensor/Display)]
+        SCK_S[SCK]
+        MOSI_S[MOSI]
+        MISO_S[MISO]
+        CS_S[CS / SS]
+    end
+
+    SCK_M -- Clock Signal --> SCK_S
+    MOSI_M -- Data Out --> MOSI_S
+    MISO_S -- Data In --> MISO_M
+    CS_M -- Chip Select (Active Low) --> CS_S
+
+    style Master fill:#e1f5fe,stroke:#01579b
+    style Slave fill:#fff9c4,stroke:#fbc02d
+    
+    style SCK_M stroke:#f00,stroke-width:2px
+    style MOSI_M stroke:#0f0,stroke-width:2px
+```
 
 | Pin | Name | Direction (Master perspective) | Description |
 | :--- | :--- | :--- | :--- |

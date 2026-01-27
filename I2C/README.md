@@ -13,9 +13,55 @@ I2C (pronounced "I-squared-C" or "I-two-C") is a synchronous, multi-master, mult
     *   Fast Mode: 400 kbit/s
     *   High Speed: 3.4 Mbit/s
 
-## 🔌 Wiring Connection
 
-I2C uses "Open Drain" drivers. This means the Master and Slaves can pull the line Low (Ground), but they cannot drive it High. This is why **Pull-Up Resistors** are required!
+## 🔌 Wiring Connection (Architecture)
+
+I2C uses "Open Drain" drivers with **Pull-Up Resistors**.
+
+```mermaid
+graph TD
+    VCC((VCC 3.3V/5V))
+    GND((GND))
+    
+    R1[Pull-Up Resistor]
+    R2[Pull-Up Resistor]
+    
+    VCC --- R1
+    VCC --- R2
+    
+    SDA_Line[SDA Bus Line]
+    SCL_Line[SCL Bus Line]
+    
+    R1 --- SDA_Line
+    R2 --- SCL_Line
+    
+    subgraph Master [Master MCU]
+        SDA_M[SDA]
+        SCL_M[SCL]
+    end
+    
+    subgraph Slave1 [Slave 1 (Addr 0x68)]
+        SDA_S1[SDA]
+        SCL_S1[SCL]
+    end
+    
+    subgraph Slave2 [Slave 2 (Addr 0x50)]
+        SDA_S2[SDA]
+        SCL_S2[SCL]
+    end
+
+    SDA_Line --- SDA_M
+    SCL_Line --- SCL_M
+    
+    SDA_Line --- SDA_S1
+    SCL_Line --- SCL_S1
+    
+    SDA_Line --- SDA_S2
+    SCL_Line --- SCL_S2
+    
+    style SDA_Line stroke:#ff9800,stroke-width:4px
+    style SCL_Line stroke:#ff9800,stroke-width:4px
+```
 
 | Pin | Name | Description |
 | :--- | :--- | :--- |
