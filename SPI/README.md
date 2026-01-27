@@ -17,14 +17,14 @@ SPI uses a Master-Slave architecture. The Master controls the clock (SCK).
 
 ```mermaid
 graph LR
-    subgraph Master [Master (Microcontroller)]
+    subgraph Master ["Master (Microcontroller)"]
         SCK_M[SCK]
         MOSI_M[MOSI]
         MISO_M[MISO]
         CS_M[CS / SS]
     end
 
-    subgraph Slave [Slave (Sensor/Display)]
+    subgraph Slave ["Slave (Sensor/Display)"]
         SCK_S[SCK]
         MOSI_S[MOSI]
         MISO_S[MISO]

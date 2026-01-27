@@ -35,17 +35,17 @@ graph TD
     R1 --- SDA_Line
     R2 --- SCL_Line
     
-    subgraph Master [Master MCU]
+    subgraph Master ["Master MCU"]
         SDA_M[SDA]
         SCL_M[SCL]
     end
     
-    subgraph Slave1 [Slave 1 (Addr 0x68)]
+    subgraph Slave1 ["Slave 1 (Addr 0x68)"]
         SDA_S1[SDA]
         SCL_S1[SCL]
     end
     
-    subgraph Slave2 [Slave 2 (Addr 0x50)]
+    subgraph Slave2 ["Slave 2 (Addr 0x50)"]
         SDA_S2[SDA]
         SCL_S2[SCL]
     end

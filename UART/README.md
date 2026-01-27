@@ -16,14 +16,14 @@ The most common mistake beginners make is wiring TX to TX. **Always cross the li
 
 ```mermaid
 graph LR
-    subgraph Device_A [Device A (Master/PC)]
+    subgraph Device_A ["Device A (Master/PC)"]
         direction TB
         TX_A[TX Pin]
         RX_A[RX Pin]
         GND_A[GND]
     end
     
-    subgraph Device_B [Device B (Slave/Sensor)]
+    subgraph Device_B ["Device B (Slave/Sensor)"]
         direction TB
         TX_B[TX Pin]
         RX_B[RX Pin]
