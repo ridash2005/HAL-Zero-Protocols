@@ -106,9 +106,9 @@ Communication_Protocols/
 
 ## 🤝 Contributing
 
-We believe in the power of open source. Whether you are fixing a typo or adding a driver for a new architecture (RISC-V, PIC, AVR), your help is welcome!
+We believe in the power of open source. Whether you are fixing a typo, adding a driver for a new architecture (RISC-V, PIC, AVR), or implementing a new protocol, your help is welcome!
 
-Please read our detailed **[Contribution Guidelines](docs/CONTRIBUTING.md)** before submitting a Pull Request.
+Please read our detailed **[Contribution Guidelines](docs/CONTRIBUTING.md)** (including our Request Roadmap) before submitting a Pull Request.
 
 ### Quick Checklist:
 *   **Arduino**: Use standard style.
