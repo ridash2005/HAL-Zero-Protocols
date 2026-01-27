@@ -89,4 +89,5 @@ Every I2C device has a hardcoded address (e.g., `0x68` for an RTC).
 
 See `examples/` for:
 1.  **I2C Scanner (Arduino)**: This is the most useful tool you will ever possess. It runs through all addresses (0-127) and reports where it finds a device. Use this if you don't know your sensor's address!
-2.  **Python (SMBus)**: For Raspberry Pi interaction.
+2.  **FPGA (SystemVerilog)**: An I2C Master with advanced **NACK Detection** (for both Address and Data phases) and explicit Error States.
+3.  **Python (SMBus)**: For Raspberry Pi interaction.

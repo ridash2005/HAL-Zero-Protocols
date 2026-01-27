@@ -79,4 +79,5 @@ SPI has 4 modes defined by Clock Polarity (**CPOL**) and Clock Phase (**CPHA**).
 
 See the `examples/` folder.
 *   **Arduino**: Uses the `<SPI.h>` library.
+*   **FPGA (SystemVerilog)**: Robust SPI Master with **Watchdog Timer** to prevent system lockups during failed transfers.
 *   **RPi (Python)**: Uses `spidev`.

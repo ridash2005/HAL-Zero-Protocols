@@ -85,4 +85,5 @@ Most devices use the **8-N-1** configuration:
 
 Check the `examples/` folder for:
 1.  **Arduino**: A simple loopback and command parser.
-2.  **Python**: Scripts to talk to your microcontroller from a PC.
+3.  **FPGA (SystemVerilog)**: synthesized UART TX module with **Parity Generation** (Even/Odd) and active Busy/Error detection.
+4.  **Python**: Scripts to talk to your microcontroller from a PC.
