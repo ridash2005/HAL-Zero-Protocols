@@ -7,6 +7,13 @@
  * - Added `error_o` enum to specify type of error.
  */
 
+typedef enum logic [1:0] {
+    NO_ERROR,
+    NACK_ADDR, // Slave didn't Ack Address
+    NACK_DATA, // Slave didn't Ack Data
+    BUS_ERROR  // Internal error
+} i2c_error_t;
+
 module i2c_master #(
     parameter int CLK_DIV = 250
 )(
@@ -18,15 +25,6 @@ module i2c_master #(
     
     output logic       busy_o,
     output logic       done_o,
-    
-    // Detailed Error Reporting
-    typedef enum logic [1:0] {
-        NO_ERROR,
-        NACK_ADDR, // Slave didn't Ack Address
-        NACK_DATA, // Slave didn't Ack Data
-        BUS_ERROR  // Internal error
-    } i2c_error_t;
-    
     output i2c_error_t error_o,
     
     // I2C Lines
@@ -66,13 +64,13 @@ module i2c_master #(
             case (state)
                 IDLE: begin
                     busy_o         <= 0;
-                    done_o         <= 0;
                     i2c_scl_enable <= 0;
                     i2c_sda_enable <= 0;
                     
                     if (start_i) begin
                         state     <= START_SEQ;
                         busy_o    <= 1;
+                        done_o    <= 0;
                         error_o   <= NO_ERROR;
                         addr_rw   <= {slave_addr_i, 1'b0}; // Write mode
                         shift_reg <= data_i;
@@ -93,22 +91,72 @@ module i2c_master #(
                 end
                 
                 ADDR: begin
-                    // Simplified: Logic to shift out address would go here
-                    // Transition to CHECK_ACK_ADDR
-                    state <= CHECK_ACK_ADDR; 
+                    // Shift out Address (7 bits) + Write Bit (0)
+                    i2c_sda_enable <= ~addr_rw[bit_cnt];
+                    if (clk_cnt < CLK_DIV - 1) begin
+                        clk_cnt <= clk_cnt + 1;
+                        if (clk_cnt == CLK_DIV/2) i2c_scl_enable <= 0; // SCL High (float)
+                    end else begin
+                        clk_cnt <= 0;
+                        i2c_scl_enable <= 1; // SCL Low
+                        if (bit_cnt == 0) begin
+                            state <= CHECK_ACK_ADDR;
+                        end else begin
+                            bit_cnt <= bit_cnt - 1;
+                        end
+                    end
                 end
                 
                 CHECK_ACK_ADDR: begin
-                    // Sample SDA. If High, it's a NACK.
-                    if (i2c_sda_in == 1) begin
-                        error_o <= NACK_ADDR;
-                        state   <= STOP_SEQ;
+                    i2c_sda_enable <= 0; // Release SDA for ACK
+                    if (clk_cnt < CLK_DIV - 1) begin
+                        clk_cnt <= clk_cnt + 1;
+                        if (clk_cnt == CLK_DIV/4) i2c_scl_enable <= 0; // SCL High early
+                        if (clk_cnt == 3*CLK_DIV/4) begin
+                            // Sample SDA. If High, it's a NACK.
+                            if (i2c_sda_in == 1) error_o <= NACK_ADDR;
+                        end
                     end else begin
-                        state   <= DATA_TX;
+                        clk_cnt <= 0;
+                        i2c_scl_enable <= 1; // SCL Low
+                        if (error_o != NO_ERROR) state <= STOP_SEQ;
+                        else begin
+                            state <= DATA_TX;
+                            bit_cnt <= 7;
+                        end
                     end
                 end
 
-                // ... Remaining states (DATA_TX, ACK_DATA logic) ...
+                DATA_TX: begin
+                    i2c_sda_enable <= ~shift_reg[bit_cnt];
+                    if (clk_cnt < CLK_DIV - 1) begin
+                        clk_cnt <= clk_cnt + 1;
+                        if (clk_cnt == CLK_DIV/2) i2c_scl_enable <= 0; // SCL High (float)
+                    end else begin
+                        clk_cnt <= 0;
+                        i2c_scl_enable <= 1; // SCL Low
+                        if (bit_cnt == 0) begin
+                            state <= CHECK_ACK_DATA;
+                        end else begin
+                            bit_cnt <= bit_cnt - 1;
+                        end
+                    end
+                end
+
+                CHECK_ACK_DATA: begin
+                    i2c_sda_enable <= 0; // Release SDA
+                    if (clk_cnt < CLK_DIV - 1) begin
+                        clk_cnt <= clk_cnt + 1;
+                        if (clk_cnt == CLK_DIV/4) i2c_scl_enable <= 0; // SCL High
+                        if (clk_cnt == 3*CLK_DIV/4) begin
+                            if (i2c_sda_in == 1) error_o <= NACK_DATA;
+                        end
+                    end else begin
+                        clk_cnt <= 0;
+                        i2c_scl_enable <= 1; // SCL Low
+                        state <= STOP_SEQ;
+                    end
+                end
                 
                 STOP_SEQ: begin
                     // Generate Stop Condition
