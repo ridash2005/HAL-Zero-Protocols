@@ -31,10 +31,12 @@ extern "C" {
 #define __vo volatile
 #define __IO volatile
 #define __I volatile const
+#ifndef __weak
 #if defined(_MSC_VER)
 #define __weak
 #else
 #define __weak __attribute__((weak))
+#endif
 #endif
 #define UNUSED(x) ((void)(x))
 
