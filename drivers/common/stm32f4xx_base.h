@@ -31,7 +31,11 @@ extern "C" {
 #define __vo volatile
 #define __IO volatile
 #define __I volatile const
-#define __ weak __attribute__((weak))
+#if defined(_MSC_VER)
+#define __weak
+#else
+#define __weak __attribute__((weak))
+#endif
 #define UNUSED(x) ((void)(x))
 
 /* ═══════════════════════════════════════════════════════════════════════════

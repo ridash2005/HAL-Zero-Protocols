@@ -28,7 +28,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -73,12 +72,23 @@ extern "C" {
  * @brief  Line coding parameters as defined by USB CDC ACM specification.
  *         These are sent by the host when opening the virtual COM port.
  */
+#if defined(_MSC_VER)
+#pragma pack(push, 1)
+typedef struct {
+  uint32_t baud_rate; /*!< Data terminal rate (bps)              */
+  uint8_t stop_bits;  /*!< 0=1 stop, 1=1.5 stop, 2=2 stop       */
+  uint8_t parity;     /*!< 0=None, 1=Odd, 2=Even, 3=Mark, 4=Space */
+  uint8_t data_bits;  /*!< 5, 6, 7, 8, or 16 bits               */
+} usb_cdc_line_coding_t;
+#pragma pack(pop)
+#else
 typedef struct __attribute__((packed)) {
   uint32_t baud_rate; /*!< Data terminal rate (bps)              */
   uint8_t stop_bits;  /*!< 0=1 stop, 1=1.5 stop, 2=2 stop       */
   uint8_t parity;     /*!< 0=None, 1=Odd, 2=Even, 3=Mark, 4=Space */
   uint8_t data_bits;  /*!< 5, 6, 7, 8, or 16 bits               */
 } usb_cdc_line_coding_t;
+#endif
 
 /* ═══════════════════════════════════════════════════════════════════════════
  *  Status / Error Codes
