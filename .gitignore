@@ -1,12 +1,30 @@
+# Build Artifacts (ARM GCC)
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.d
+build/
+
 # Simulation Artifacts
 *.vcd
 *_sim
 *.log
 
+# IDE Artifacts
+.vscode/
+.idea/
+*.uvprojx
+*.uvoptx
+*.uvguix.*
+
 # Python Artifacts
 __pycache__/
 *.py[cod]
 *$py.class
+.venv/
 
 # OS Artifacts
 .DS_Store

@@ -135,8 +135,30 @@ Communication_Protocols/
 │       ├── 📂 stm32/
 │       ├── 📂 fpga/
 │       └── 📂 python/
+├── 📂 drivers/           # ⚙️ Bare-Metal STM32F4xx Peripheral Drivers
+│   ├── README.md         #    Suite overview and quick-start guide
+│   ├── 📂 common/        #    Base register defs, error codes
+│   ├── 📂 gpio/          #    GPIO + EXTI interrupt driver
+│   ├── 📂 uart/          #    UART polling, interrupt, DMA driver
+│   ├── 📂 spi/           #    SPI master/slave driver
+│   ├── 📂 i2c/           #    I2C master driver
+│   ├── 📂 timer/         #    General-purpose timer driver
+│   ├── 📂 adc/           #    ADC single/continuous/DMA driver
+│   ├── 📂 pwm/           #    PWM output driver
+│   ├── 📂 dma/           #    DMA controller driver
+│   └── 📂 nvic/          #    NVIC abstraction layer
+├── 📂 protocol_stacks/   # 📡 Communication Protocol Implementations
+│   ├── README.md
+│   ├── 📂 modbus/        #    MODBUS RTU slave (industrial)
+│   ├── 📂 can_bus/       #    CAN 2.0B controller (automotive)
+│   └── 📂 usb_cdc/       #    USB CDC virtual COM port
 └── 📂 docs/              # 📚 References, Pinouts, and Cheat Sheets
 ```
+
+> **📌 Two Layers of Code:**
+> - **`UART/`, `SPI/`, `I2C/`** — Educational, multi-platform examples (Arduino, STM32 HAL, FPGA, Python) for learning protocol fundamentals.
+> - **`drivers/`** — Production-grade, bare-metal STM32F4xx peripheral drivers written from scratch with zero HAL dependencies. These are what you'd ship in a real product.
+> - **`protocol_stacks/`** — Higher-level protocol implementations (MODBUS, CAN, USB CDC) that build on top of the `drivers/` layer.
 
 ---
 

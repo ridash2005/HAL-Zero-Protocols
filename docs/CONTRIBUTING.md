@@ -35,11 +35,12 @@ We are looking for contributions in the following areas. If you want to work on 
 
 ### 1. 📡 Missing Protocols
 We need comprehensive guides and examples for:
-*   **CAN Bus (Controller Area Network)**: Essential for automotive.
-*   **RS-485**: Robust industrial serial.
-*   **Modbus (RTU & TCP)**: Industrial automation standard.
+*   **RS-485**: Robust industrial serial (physical layer for MODBUS).
 *   **1-Wire**: For sensors like DS18B20.
 *   **I2S**: Audio data transmission.
+*   **Modbus TCP**: TCP/IP variant of Modbus (RTU is already implemented).
+
+> **Already Implemented:** CAN Bus (`protocol_stacks/can_bus/`), MODBUS RTU (`protocol_stacks/modbus/`), USB CDC (`protocol_stacks/usb_cdc/`).
 
 ### 2. 💻 New Platforms
 Expand our coverage beyond Arduino/STM32/FPGA:
@@ -48,9 +49,9 @@ Expand our coverage beyond Arduino/STM32/FPGA:
 *   **Rust Embedded**: Examples using `embedded-hal` or `embassy`.
 
 ### 3. ⚡ Advanced Features
-*   **DMA & Interrupts**: Current examples are mostly polling-based. We need Non-Blocking (DMA/ISR) examples for STM32 and Arduino.
-*   **Testbenches**: Self-checking SystemVerilog testbenches for the FPGA modules.
-*   **Unit Tests**: Python scripts to validate hardware interactions automatically.
+*   **Hardware-in-loop testing**: Automated test scripts that validate real hardware behavior.
+*   **Self-checking testbenches**: SystemVerilog testbenches with `$assert` / `$error` for the FPGA modules.
+*   **Unit Tests**: Host-compiled unit tests for the bare-metal drivers (see `verification/`).
 
 ### 4. 📚 Documentation
 *   Add more interactive timing diagrams (WaveDrom).
